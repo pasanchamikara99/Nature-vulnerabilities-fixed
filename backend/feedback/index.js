@@ -1,45 +1,53 @@
 require("dotenv").config();
 const cors = require("cors");
-// const stripe = require("stripe")(
-//   "sk_test_51MxnUfIr55hAMMKQLxFCiGbaVy4gofEfsDFaiO8Le0TPSTqwlaVXTXdoau4xr0DegUzSSDuDUJWZr8PpaYGWzu3N008ZjqTtjz"
-// );
 const express = require("express");
 const mongoose = require("mongoose");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 
-//express app
+// Express app
 const app = express();
 
-//middleware
+// Middleware
 app.use(express.static("public"));
 app.use(express.json());
 
+// Configure CORS to allow only trusted domains
+const allowedOrigins = ['http://localhost:3000'];
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    optionsSuccessStatus: 200,
   })
 );
 
+// Request logging middleware
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
 
-//routes
+// Routes
 app.use("/api/feedback", feedbackRoutes);
 
-
-//connect to DB
+// Connect to the database
 mongoose.set("strictQuery", false);
 
-try {
-  mongoose.connect(process.env.MONGO_URI);
-  console.log("Connected to DB");
-} catch (error) {
-  console.log(error);
-}
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log("Connected to DB");
+  })
+  .catch((error) => {
+    console.error("Database connection failed:", error.message);
+  });
 
-//listen for requests
+// Listen for requests
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log("Listening on port", port);
