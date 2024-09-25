@@ -1,0 +1,6 @@
+projectKey=SPM-Backend
+serverUrl=http://localhost:9000
+serverVersion=10.6.0.92116
+dashboardUrl=http://localhost:9000/dashboard?id=SPM-Backend
+ceTaskId=c88be76a-56a9-4284-8587-20c71651c41f
+ceTaskUrl=http://localhost:9000/api/ce/task?id=c88be76a-56a9-4284-8587-20c71651c41f
