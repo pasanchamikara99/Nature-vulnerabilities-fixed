@@ -94,7 +94,7 @@ export default function OneCategory() {
               style={{ width: "300px", height: "200px", objectFit: "cover" }}
             >
               <img
-                src={DOMPurify.sanitize(productData.imageLink)}
+                src={DOMPurify.sanitize(creamData.imageLink)}
                 style={{ width: "300px" }}
               />
             </div>
