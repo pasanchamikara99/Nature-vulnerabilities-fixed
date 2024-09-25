@@ -40,20 +40,51 @@ router.post(
 );
 
 //UPDATE
-router.put("/:id", async (req, res) => {
-  try {
-    const updatedOrder = await Order.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: req.body,
-      },
-      { new: true }
-    );
-    res.status(200).send(updatedOrder);
-  } catch (err) {
-    res.status(500).send(err);
+// router.put("/:id", async (req, res) => {
+//   try {
+//     const updatedOrder = await Order.findByIdAndUpdate(
+//       req.params.id,
+//       {
+//         $set: req.body,
+//       },
+//       { new: true }
+//     );
+//     res.status(200).send(updatedOrder);
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// });
+
+const { body, validationResult } = require("express-validator");
+
+router.put(
+  "/:id",
+  // Add validation rules for the input data here
+  [
+    body("field1").trim().escape(), // Sanitize and escape fields as per requirement
+    body("field2").trim().isLength({ min: 1 }).escape(),
+  ],
+  async (req, res) => {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const updatedOrder = await Order.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body, // Now sanitized and validated
+        },
+        { new: true }
+      );
+      res.status(200).send(updatedOrder);
+    } catch (err) {
+      res.status(500).send(err);
+    }
   }
-});
+);
 
 //DELETE
 router.delete("/:id", async (req, res) => {
@@ -66,14 +97,34 @@ router.delete("/:id", async (req, res) => {
 });
 
 //GET USER ORDERS
-router.get("/find/:userId", async (req, res) => {
-  try {
-    const orders = await Order.find({ userId: req.params.userId });
-    res.status(200).send(orders);
-  } catch (err) {
-    res.status(500).send(err);
+// router.get("/find/:userId", async (req, res) => {
+//   try {
+//     const orders = await Order.find({ userId: req.params.userId });
+//     res.status(200).send(orders);
+//   } catch (err) {
+//     res.status(500).send(err);
+//   }
+// });
+
+router.get(
+  "/find/:userId",
+  // Validation rule for userId, assuming it should be a valid MongoDB ObjectId
+  param("userId").isMongoId().withMessage("Invalid user ID"),
+  async (req, res) => {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const orders = await Order.find({ userId: req.params.userId });
+      res.status(200).send(orders);
+    } catch (err) {
+      res.status(500).send(err);
+    }
   }
-});
+);
 
 //GET ALL ORDERS
 
