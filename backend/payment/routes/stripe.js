@@ -16,7 +16,47 @@ router.post("/create-checkout-session", async (req, res) => {
     },
   });
 
-  const line_items = req.body.cartItems.map((item) => {
+  /*******FIXED PART - START******/
+
+  const cartItems = req.body.cartItems;
+
+  // Check if cartItems is an array
+  if (!Array.isArray(cartItems)) {
+    return res.status(400).send({ message: "cartItems should be an array" });
+  }
+
+  // Validate the structure of each item
+  for (const item of cartItems) {
+    if (
+      typeof item !== "object" ||
+      !item.name ||
+      !item.image ||
+      !item.desc ||
+      !item.id ||
+      !item.price ||
+      !item.cartQuantity
+    ) {
+      return res.status(400).send({ message: "Invalid cart item structure" });
+    }
+
+    // Additional type checks for each property
+    if (
+      typeof item.name !== "string" ||
+      typeof item.image !== "string" ||
+      typeof item.desc !== "string" ||
+      typeof item.id !== "string" ||
+      typeof item.price !== "number" ||
+      typeof item.cartQuantity !== "number"
+    ) {
+      return res
+        .status(400)
+        .send({ message: "Invalid data types in cart item" });
+    }
+  }
+
+  /*******FIXED PART - END ******/
+
+  const line_items = cartItems.map((item) => {
     return {
       price_data: {
         currency: "usd",
