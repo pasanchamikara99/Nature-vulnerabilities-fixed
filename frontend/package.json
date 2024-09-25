@@ -12,6 +12,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.3.5",
+    "dompurify": "^3.1.6",
     "firebase": "^9.21.0",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
@@ -26,10 +27,11 @@
     "reactjs-popup": "^2.0.5",
     "redux": "^4.2.1",
     "styled-components": "^5.3.5",
+    "validator": "^13.12.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-     "start": "react-scripts --openssl-legacy-provider start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

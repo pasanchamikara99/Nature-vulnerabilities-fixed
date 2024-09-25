@@ -70,7 +70,7 @@ function App() {
               <Route path="/admin" element={user1 && user1.user.type == 'admin' ? <AdminDashboard/> : <NotAuthorized/>} />
 
               <Route path="/allProducts" element={<AllProducts/>} />
-              <Route path="/addProduct" element={(user1 && user1.user.type == 'seller') || (user1 && user1.user.type == 'admin') ? <AddNewProduct/> : <NotAuthorized/>} />
+              <Route path="/addProduct" element={<AddNewProduct/>} />
               <Route path="/editProduct/:id" element={(user1 && user1.user.type == 'seller') || (user1 && user1.user.type == 'admin') ? <EditProduct/> : <NotAuthorized/>} />
               <Route path="/oneProduct/:id" element={<OneProduct/>} />  
               <Route path="/sellerProducts" element={user1 && user1.user.type == 'seller' ? <SellerProducts/> : <NotAuthorized/>} /> 
