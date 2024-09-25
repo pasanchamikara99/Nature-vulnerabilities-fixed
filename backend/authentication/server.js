@@ -1,16 +1,23 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const userRoutes = require('./routes/user')
+const helmet = require("helmet");
+const userRoutes = require("./routes/user");
 
 //express app
 const app = express();
 
-app.use(express.json())
+// Use Helmet to add various security headers, including disabling X-Powered-By
+app.use(helmet());
 
-app.use((req,res,next)=>{
-    //console.log(req.path,req.method)
-    next()
-})
+// Your other middleware and routes
+app.use("/stripe", stripe);
+
+app.use(express.json());
+
+app.use((req, res, next) => {
+  //console.log(req.path,req.method)
+  next();
+});
 
 app.use("/api/user", userRoutes);
 
@@ -20,9 +27,9 @@ mongoose
   )
   .then(() => {
     app.listen(4000, () => {
-        console.log("this app listen on port 4000");
-        console.log("this app connect to the database");
-      });    
+      console.log("this app listen on port 4000");
+      console.log("this app connect to the database");
+    });
   })
   .catch((error) => {
     console.log(error);
