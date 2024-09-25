@@ -6,12 +6,25 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 const checkoutRouter = require("./routes/checkout");
+const csurf = require("csurf");
+const cookieParser = require("cookie-parser");
 
 const port = process.env.PORT || 8080;
 const mongo_url = process.env.MONGO_URL;
 
 // Use Helmet to add various security headers, including disabling X-Powered-By
 app.use(helmet());
+
+// CSRF protection middleware
+const csrfProtection = csurf({ cookie: true });
+
+// Apply CSRF protection to all routes
+app.use(csrfProtection);
+
+app.use((req, res, next) => {
+  //console.log(req.path,req.method)
+  next();
+});
 
 // Your other middleware and routes
 app.use("/stripe", stripe);
