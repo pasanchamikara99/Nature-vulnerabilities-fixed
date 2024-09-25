@@ -40,8 +40,21 @@ app.use(
   })
 );
 
+// app.use((req, res, next) => {
+//   console.log(req.path, req.method);
+//   next();
+// });
+
+const sanitizeLogInput = (input) => {
+  return input.replace(/[\n\r\t]/g, ""); // Remove newlines, carriage returns, and tabs
+};
+
 app.use((req, res, next) => {
-  console.log(req.path, req.method);
+  const sanitizedPath = sanitizeLogInput(req.path);
+  const sanitizedMethod = sanitizeLogInput(req.method);
+
+  console.log(sanitizedPath, sanitizedMethod);
+
   next();
 });
 
