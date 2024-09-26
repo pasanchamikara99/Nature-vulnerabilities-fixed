@@ -8,10 +8,10 @@ ___
 + [React.js](https://react.dev/) for the frontend
 + [Node.js](https://nodejs.org/en) and [Express.js](https://expressjs.com/) for the backend API
 + [MongoDB](https://www.mongodb.com/) Atlas for database storage
-+ Version Control: Git, GitHub
-+ Containerization: Docker
-+ Payment Gateway: Stripe
-+ Storage: Firebase Storage
++ Version Control : Git, GitHub
++ Containerization : Docker
++ Payment Gateway : Stripe
++ Storage : Firebase Storage
 ___
 
 ### **Features**
