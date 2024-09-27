@@ -20,7 +20,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.10",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.22",
     "sanitize-html": "^2.13.0",
     "stripe": "^8.218.0"
   }
